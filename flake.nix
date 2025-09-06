@@ -22,7 +22,13 @@
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = import systems;
-      perSystem = { ... }: { };
+      perSystem =
+        { pkgs, ... }:
+        {
+          devShells.default = pkgs.mkShell {
+            nativeBuildInputs = with pkgs; [ nixd ];
+          };
+        };
       flake = { inherit build modules; };
     };
 }
